@@ -4,7 +4,7 @@ My considerations:
 
 - I built POST endpoints responsible for uploading CSV files but I was unable to test them because I couldn't run the web API inside the limit time.
 
-- I couldn't test connecting to a database for the same reason even though the DbContext was configured.
+- I couldn't test connecting to a database for the same reason even though the DbContext was configured. However, the mappings and migrations are missing.
 
 - All layers (API, Infra, Domain and Tests) were integrated.
 
