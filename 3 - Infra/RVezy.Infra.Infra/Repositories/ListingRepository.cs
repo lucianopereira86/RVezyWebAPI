@@ -46,7 +46,7 @@ namespace RVezy.Infra.Infra.Repositories
 
         public async Task<IEnumerable<DomainListing>> GetListingsByPropertyType(string propertyType, PageOptions pageOptions = null)
         {
-            var result = (await Pagination(_context.Listings.AsNoTracking().Where(w => w.PropertyType == propertyType), pageOptions)).ToList();
+            var result = await Pagination(_context.Listings.AsNoTracking().Where(w => w.PropertyType == propertyType), pageOptions);
             return _mapper.Map<IEnumerable<DomainListing>>(result);
         }
     }

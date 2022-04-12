@@ -33,7 +33,7 @@ namespace RVezyWebAPI.Controllers
 
         #region GET
         [HttpGet]
-        public async Task<IActionResult> GetCalendars([FromQuery] PageOptions pageOptions)
+        public async Task<IActionResult> GetCalendars([FromQuery] PageOptions pageOptions = null)
         {
             var result = await _calendarRepository.GetCalendars(pageOptions);
             _logger.LogInformation($"GetCalendars => result: {JsonConvert.SerializeObject(result)}");

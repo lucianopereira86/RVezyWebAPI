@@ -9,6 +9,6 @@ namespace RVezy.Domain.Domain.Interfaces
     public interface ICalendarRepository
     {
         Task CreateCalendars(IEnumerable<Calendar> calendars, CancellationToken cancellationToken = default);
-        Task<IEnumerable<Calendar>> GetCalendars(PageOptions pageOptions);
+        Task<IEnumerable<Calendar>> GetCalendars(PageOptions pageOptions = null);
     }
 }
