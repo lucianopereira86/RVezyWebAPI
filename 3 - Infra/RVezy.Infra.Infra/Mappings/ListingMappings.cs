@@ -10,7 +10,7 @@ namespace RVezy.Infra.Infra.Mappings
         {
             builder.ToTable(nameof(Listing));
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Id).ValueGeneratedOnAdd();
+            builder.Property(c => c.Id).ValueGeneratedNever();
             builder.Property(c => c.Description).HasMaxLength(1000);
             builder.Property(c => c.ListingUrl).HasMaxLength(1000);
             builder.Property(c => c.Name).HasMaxLength(200);

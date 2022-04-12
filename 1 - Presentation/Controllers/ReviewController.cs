@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using RVezy.Domain.Domain.Entities;
 using RVezy.Domain.Domain.Interfaces;
 using RVezy.Domain.Domain.Models;
 using RVezy.Domain.Domain.Models.Csv;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RVezyWebAPI.Controllers
@@ -47,27 +49,22 @@ namespace RVezyWebAPI.Controllers
         {
             if (formFile.Length > 0)
             {
-                var filePath = Path.GetTempFileName();
+                using var memoryStream = new MemoryStream(new byte[formFile.Length]);
+                await formFile.CopyToAsync(memoryStream);
+                memoryStream.Position = 0;
 
-                using (var stream = System.IO.File.Create(filePath))
+                using var reader = new StreamReader(memoryStream);
+                var config = new CsvConfiguration(CultureInfo.InvariantCulture)
                 {
-                    await formFile.CopyToAsync(stream);
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var content = reader.ReadToEnd();
-                        using (TextReader textReader = new StringReader(content))
-                        {
-                            using (var csv = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-                            {
-                                var reviewsCsv = csv.GetRecords<ReviewCsv>();
-                                var reviews = _mapper.Map<IEnumerable<RVezy.Domain.Domain.Entities.Review>>(reviewsCsv);
-                                await _reviewRepository.CreateReviews(reviews);
-                            }
-                        }
-                    }
-                }
+                    HeaderValidated = null
+                };
+                using var csvReader = new CsvReader(reader, config);
+                var records = csvReader.GetRecords<ReviewCsv>().ToList();
+                var reviews = _mapper.Map<IEnumerable<Review>>(records);
+                if (!reviews.Any())
+                    throw new System.Exception("No data obtained from file");
+                await _reviewRepository.CreateReviews(reviews);
             }
-
             return Ok();
         }
         #endregion POST

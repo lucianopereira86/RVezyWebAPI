@@ -22,9 +22,7 @@ namespace RVezy.Infra.Infra.Migrations
             modelBuilder.Entity("RVezy.Infra.Infra.Entities.Calendar", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
@@ -48,9 +46,7 @@ namespace RVezy.Infra.Infra.Migrations
             modelBuilder.Entity("RVezy.Infra.Infra.Entities.Listing", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -76,9 +72,7 @@ namespace RVezy.Infra.Infra.Migrations
             modelBuilder.Entity("RVezy.Infra.Infra.Entities.Review", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .UseIdentityColumn();
+                        .HasColumnType("int");
 
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");

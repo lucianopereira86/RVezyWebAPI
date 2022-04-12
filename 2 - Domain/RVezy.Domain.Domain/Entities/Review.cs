@@ -4,18 +4,22 @@ namespace RVezy.Domain.Domain.Entities
 {
     public class Review
     {
-        public Review(int listingId, int id, DateTime date, int reviewerId, string reviewerName, string comments)
+        public Review()
         {
-            ListingId = listingId;
+
+        }
+        public Review(int id, int listingId, DateTime date, int reviewerId, string reviewerName, string comments)
+        {
             Id = id;
+            ListingId = listingId;
             Date = date;
             ReviewerId = reviewerId;
             ReviewerName = reviewerName;
             Comments = comments;
         }
 
-        public int ListingId { get; private set; }
         public int Id { get; private set; }
+        public int ListingId { get; private set; }
         public DateTime Date { get; private set; }
         public int ReviewerId { get; private set; }
         public string ReviewerName { get; private set; }

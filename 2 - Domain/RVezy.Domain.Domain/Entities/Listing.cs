@@ -2,6 +2,10 @@
 {
     public class Listing
     {
+        public Listing()
+        {
+
+        }
         public Listing(int id, string listingUrl, string name, string description, string propertyType)
         {
             Id = id;

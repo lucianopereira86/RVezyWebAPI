@@ -10,12 +10,11 @@ namespace RVezy.Infra.Infra.Mappings
         {
             builder.ToTable(nameof(Calendar));
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.Id).ValueGeneratedOnAdd();
+            builder.Property(c => c.Id).ValueGeneratedNever();
             builder.Property(c => c.ListingId);
             builder.Property(c => c.Date);
             builder.Property(c => c.Available);
             builder.Property(c => c.Price);
-
 
             builder.HasOne(i => i.Listing)
                    .WithMany(e => e.Calendars)
@@ -23,7 +22,6 @@ namespace RVezy.Infra.Infra.Mappings
                    .HasConstraintName($"FK_{nameof(Calendar)}_{nameof(Calendar.ListingId)}");
 
             builder.HasIndex(i => i.ListingId, $"IX_{nameof(Calendar)}_{nameof(Calendar.ListingId)}");
-
         }
     }
 }

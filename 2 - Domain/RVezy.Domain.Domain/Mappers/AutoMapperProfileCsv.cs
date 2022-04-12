@@ -9,12 +9,13 @@ namespace RVezy.Domain.Domain.Mappers
         public AutoMapperProfileCsv()
         {
             CreateMap<ListingCsv, Listing>()
-                .ForMember(f => f.Description, opt => opt.MapFrom(m => m.description))
                 .ForMember(f => f.Id, opt => opt.MapFrom(m => m.id))
                 .ForMember(f => f.ListingUrl, opt => opt.MapFrom(m => m.listing_url))
                 .ForMember(f => f.Name, opt => opt.MapFrom(m => m.name))
+                .ForMember(f => f.Description, opt => opt.MapFrom(m => m.description))
                 .ForMember(f => f.PropertyType, opt => opt.MapFrom(m => m.property_type));
             CreateMap<CalendarCsv, Calendar>()
+                .ForMember(f => f.Id, opt => opt.MapFrom(m => m.id))
                 .ForMember(f => f.Available, opt => opt.MapFrom(m => m.available))
                 .ForMember(f => f.Date, opt => opt.MapFrom(m => m.date))
                 .ForMember(f => f.ListingId, opt => opt.MapFrom(m => m.listing_id))
