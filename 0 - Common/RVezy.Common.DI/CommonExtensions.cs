@@ -15,7 +15,10 @@ namespace RVezy.Common.DI
         public static IServiceCollection AddCommonDependencies(this IServiceCollection services, IConfiguration config)
         {
             services.AddScoped<IListingRepository, ListingRepository>();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+            services.AddScoped<ICalendarRepository, CalendarRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddDbContext<ApplicationDbContext>(options => 
+                options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(Assembly.GetEntryAssembly());
             services.AddAutoMapper(typeof(AutoMapperProfileCsv));
             services.AddAutoMapper(typeof(AutoMapperProfileEf));

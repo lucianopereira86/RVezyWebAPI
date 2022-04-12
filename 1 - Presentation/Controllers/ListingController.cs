@@ -65,28 +65,24 @@ namespace RVezyWebAPI.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> PostUpload(IFormFile formFile)
         {
-            if (formFile.Length > 0)
-            {
-                var filePath = Path.GetTempFileName();
+            if (formFile.Length == 0)
+                throw new System.Exception("File is empty");
 
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    await formFile.CopyToAsync(stream);
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var content = reader.ReadToEnd();
-                        using (TextReader textReader = new StringReader(content))
-                        {
-                            using (var csv = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-                            {
-                                var listingsCsv = csv.GetRecords<ListingCsv>();
-                                var listings = _mapper.Map<IEnumerable<Listing>>(listingsCsv);
-                                await _listingRepository.CreateListings(listings);
-                            }
-                        }
-                    }
-                }
-            }
+            using var memoryStream = new MemoryStream(new byte[formFile.Length]);
+            await formFile.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            using var reader = new StreamReader(memoryStream);
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HeaderValidated = null
+            };
+            using var csvReader = new CsvReader(reader, config);
+            var records = csvReader.GetRecords<ListingCsv>().ToList();
+            var listings = _mapper.Map<IEnumerable<Listing>>(records);
+            if (!listings.Any())
+                throw new System.Exception("No data obtained from file");
+            await _listingRepository.CreateListings(listings);
 
             return Ok();
         }

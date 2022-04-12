@@ -4,6 +4,11 @@ namespace RVezy.Domain.Domain.Models
 {
     public class PageOptions
     {
+        public PageOptions()
+        {
+            Page = 1;
+            Count = 10;
+        }
         public PageOptions(int page, int count)
         {
             Page = page;

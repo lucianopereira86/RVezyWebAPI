@@ -9,6 +9,6 @@ namespace RVezy.Domain.Domain.Interfaces
     public interface IReviewRepository
     {
         Task CreateReviews(IEnumerable<Review> reviews, CancellationToken cancellationToken = default);
-        Task<IEnumerable<Review>> GetReviews(PageOptions pageOptions);
+        Task<IEnumerable<Review>> GetReviews(PageOptions pageOptions = null);
     }
 }

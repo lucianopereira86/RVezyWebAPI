@@ -9,7 +9,6 @@ using DomainReview = RVezy.Domain.Domain.Entities.Review;
 using System.Threading;
 using RVezy.Domain.Domain.Models;
 using RVezy.Domain.Domain.Interfaces;
-using System.Linq;
 
 namespace RVezy.Infra.Infra.Repositories
 {
@@ -32,9 +31,9 @@ namespace RVezy.Infra.Infra.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<DomainReview>> GetReviews(PageOptions pageOptions)
+        public async Task<IEnumerable<DomainReview>> GetReviews(PageOptions pageOptions = null)
         {
-            var result = (await Pagination(_context.Reviews.AsNoTracking(), pageOptions)).ToList();
+            var result = await Pagination(_context.Reviews.AsNoTracking(), pageOptions);
             return _mapper.Map<IEnumerable<DomainReview>>(result);
         }
     }

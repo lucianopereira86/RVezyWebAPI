@@ -1,4 +1,6 @@
-﻿namespace RVezy.Infra.Infra.Entities
+﻿using System.Collections.Generic;
+
+namespace RVezy.Infra.Infra.Entities
 {
     public class Listing
     {
@@ -7,5 +9,8 @@
         public string Name { get; set; }
         public string Description { get; set; }
         public string PropertyType { get; set; }
+
+        public IEnumerable<Calendar> Calendars { get; set; }
+        public IEnumerable<Review> Reviews { get; set; }
     }
 }

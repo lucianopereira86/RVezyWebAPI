@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using RVezy.Domain.Domain.Entities;
 using RVezy.Domain.Domain.Interfaces;
 using RVezy.Domain.Domain.Models;
 using RVezy.Domain.Domain.Models.Csv;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace RVezyWebAPI.Controllers
@@ -33,7 +35,7 @@ namespace RVezyWebAPI.Controllers
 
         #region GET
         [HttpGet]
-        public async Task<IActionResult> GetCalendars([FromQuery] PageOptions pageOptions)
+        public async Task<IActionResult> GetCalendars([FromQuery] PageOptions pageOptions = null)
         {
             var result = await _calendarRepository.GetCalendars(pageOptions);
             _logger.LogInformation($"GetCalendars => result: {JsonConvert.SerializeObject(result)}");
@@ -45,28 +47,24 @@ namespace RVezyWebAPI.Controllers
         [HttpPost("upload")]
         public async Task<IActionResult> PostUpload(IFormFile formFile)
         {
-            if (formFile.Length > 0)
-            {
-                var filePath = Path.GetTempFileName();
+            if (formFile.Length == 0)
+                throw new System.Exception("File is empty");
 
-                using (var stream = System.IO.File.Create(filePath))
-                {
-                    await formFile.CopyToAsync(stream);
-                    using (var reader = new StreamReader(stream))
-                    {
-                        var content = reader.ReadToEnd();
-                        using (TextReader textReader = new StringReader(content))
-                        {
-                            using (var csv = new CsvReader(textReader, new CsvConfiguration(CultureInfo.InvariantCulture)))
-                            {
-                                var calendarsCsv = csv.GetRecords<CalendarCsv>();
-                                var calendars = _mapper.Map<IEnumerable<RVezy.Domain.Domain.Entities.Calendar>>(calendarsCsv);
-                                await _calendarRepository.CreateCalendars(calendars);
-                            }
-                        }
-                    }
-                }
-            }
+            using var memoryStream = new MemoryStream(new byte[formFile.Length]);
+            await formFile.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
+            using var reader = new StreamReader(memoryStream);
+            var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                HeaderValidated = null
+            };
+            using var csvReader = new CsvReader(reader, config);
+            var records = csvReader.GetRecords<CalendarCsv>().ToList();
+            var calendars = _mapper.Map<IEnumerable<RVezy.Domain.Domain.Entities.Calendar>>(records);
+            if (!calendars.Any())
+                throw new System.Exception("No data obtained from file");
+            await _calendarRepository.CreateCalendars(calendars);
 
             return Ok();
         }

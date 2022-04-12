@@ -7,7 +7,7 @@ namespace RVezy.Infra.Infra.Repositories
 {
     public class BaseRepository
     {
-        protected async Task<IEnumerable<TEntity>> Pagination<TEntity>(IQueryable<TEntity> query, PageOptions pageOptions)
+        protected async Task<IEnumerable<TEntity>> Pagination<TEntity>(IQueryable<TEntity> query, PageOptions pageOptions = null)
         {
             if (pageOptions is null)
             {
