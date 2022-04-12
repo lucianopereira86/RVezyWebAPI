@@ -10,5 +10,7 @@ namespace RVezy.Infra.Infra.Entities
         public int ReviewerId { get; set; }
         public string ReviewerName { get; set; }
         public string Comments { get; set; }
+
+        public Listing Listing { get; set; }
     }
 }

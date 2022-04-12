@@ -25,7 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\0 - Common\RVezy.Common.DI\RVezy.Common.DI.csproj" />
-    <ProjectReference Include="..\..\1 - API\RVezy.Presentation.WebAPI.csproj" />
+    <ProjectReference Include="..\..\1 - Presentation\RVezy.Presentation.WebAPI.csproj" />
   </ItemGroup>
 
 </Project>
