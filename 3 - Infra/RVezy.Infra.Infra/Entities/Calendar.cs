@@ -10,6 +10,6 @@ namespace RVezy.Infra.Infra.Entities
         public bool Available{ get; set; }
         public float Price{ get; set; }
         
-        public Listing Listing { get; set; }
+        public virtual Listing Listing { get; set; }
     }
 }

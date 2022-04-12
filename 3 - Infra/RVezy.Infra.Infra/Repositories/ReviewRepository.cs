@@ -31,7 +31,7 @@ namespace RVezy.Infra.Infra.Repositories
             await _context.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task<IEnumerable<DomainReview>> GetReviews(PageOptions pageOptions)
+        public async Task<IEnumerable<DomainReview>> GetReviews(PageOptions pageOptions = null)
         {
             var result = await Pagination(_context.Reviews.AsNoTracking(), pageOptions);
             return _mapper.Map<IEnumerable<DomainReview>>(result);

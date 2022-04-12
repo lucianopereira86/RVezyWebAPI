@@ -11,6 +11,10 @@ namespace RVezy.Infra.Infra.Context
 
         private readonly ILoggerFactory _loggerFactory;
 
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+        {
+        }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILoggerFactory loggerFactory) : base(options)
         {
             _loggerFactory = loggerFactory;
