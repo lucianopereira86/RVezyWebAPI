@@ -21,12 +21,14 @@ using DomainCalendar = RVezy.Domain.Domain.Entities.Calendar;
 using InfraCalendar = RVezy.Infra.Infra.Entities.Calendar;
 using RVezy.Infra.Infra.Repositories;
 using System.Linq;
+using System.IO;
+using Microsoft.AspNetCore.Http;
 
 namespace RVezy.Tests.Tests
 {
     public class CalendarTests
     {
-        #region Facts
+        #region GET
         #region Controller
         [Fact]
         public async Task ShouldReturnListOfCalendarsFromController()
@@ -79,7 +81,35 @@ namespace RVezy.Tests.Tests
             #endregion Assert
         }
         #endregion Repository
-        #endregion Facts
+        #endregion GET
+
+        #region POST
+        #region Controller
+        [Fact]
+        public async Task ShouldUploadFileFromController()
+        {
+            #region Arrange
+            IMapper mapper = GetMapper();
+            var mockRepository = new Mock<ICalendarRepository>();
+            var mockLogger = new Mock<ILogger<CalendarController>>();
+
+            var mockController = new CalendarController(mockLogger.Object, mapper, mockRepository.Object);
+            string fileName = "calendars.csv";
+            string filePath = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + $"\\Files\\{fileName}";
+            using var stream = new MemoryStream(File.ReadAllBytes(filePath).ToArray());
+            var formFile = new FormFile(stream, 0, stream.Length, fileName, filePath.Split(@"\").Last());
+            #endregion Arrange
+
+            #region  Act
+            var result = await mockController.PostUpload(formFile);
+            #endregion Act
+
+            #region Assert
+            result.GetType().Should().Be(typeof(OkResult));
+            #endregion Assert
+        }
+        #endregion Controller
+        #endregion POST
 
         #region Private Methods 
         private static List<InfraListing> CreateListings()
