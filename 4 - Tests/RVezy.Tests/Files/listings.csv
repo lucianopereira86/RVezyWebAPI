@@ -1,6 +1,6 @@
 id,listing_url,name,description,property_type
-7,http://url7,listing_name7,listing_description7,type_1
-8,http://url8,listing_name8,listing_description8,type_1
-9,http://url9,listing_name9,listing_description9,type_2
-10,http://url10,listing_name10,listing_description10,type_2
-11,http://url11,listing_name11,listing_description11,type_2
+1,http://url1,listing_name1,listing_description1,type_A
+2,http://url2,listing_name2,listing_description2,type_A
+3,http://url3,listing_name3,listing_description3,type_B
+4,http://url4,listing_name4,listing_description4,type_B
+5,http://url5,listing_name5,listing_description5,type_B
