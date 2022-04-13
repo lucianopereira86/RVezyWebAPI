@@ -26,7 +26,7 @@ The solution contains 5 projects:
 ## Web API
 ![swagger](/docs/swagger.JPG)
 
-- In order to run the web API, a SQL Server connection string must be set in the _appsetting.json_ file:
+- In order to run the web API, a SQL Server connection string must be set in the _appsettings.json_ file:
 ```json
 {
   "ConnectionStrings": {
@@ -48,7 +48,7 @@ The solution contains 5 projects:
 ## Unit Tests
 ![tests](/docs/tests.JPG)
 
-- No configuration is needed before running the tests.
+- No configuration is needed before running the tests (neither a SQL Server connection).
 - There are 3 scenarios tested for each entity:
     - GET endpoints from controllers with mocked repositories; 
     - Queries from repositories with In-Memory Database;
