@@ -24,6 +24,8 @@ The solution contains 5 projects:
 - *4 - Tests/RVezy.Tests:* unity tests and CSV files.
 
 ## Web API
+![swagger](/docs/swagger.JPG)
+
 - The database will be created once the web API runs through migration, but the data will be obtained only after the CSV files be uploaded.
 - The CSV files are located at: "4 - Tests\RVezy.Tests\Files".
 - Each file has its own endpoint:
