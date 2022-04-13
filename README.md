@@ -26,7 +26,17 @@ The solution contains 5 projects:
 ## Web API
 ![swagger](/docs/swagger.JPG)
 
-- The database will be created once the web API runs through migration, but the data will be obtained only after the CSV files be uploaded.
+- In order to run the web API, a SQL Server connection string must be set in the _appsetting.json_ file:
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Server={SERVER},{PORT};Database={DATABASE};User Id={USER_ID};Password={PASSWORD};"
+  },
+  ...
+}
+```
+
+- The database will be created through migration once the web API runs, but the data will be inserted only after the CSV files be uploaded on the Swagger page.
 - The CSV files are located at: "4 - Tests\RVezy.Tests\Files".
 - Each file has its own endpoint:
     - "listings.csv": POST ​/Listing​/upload
